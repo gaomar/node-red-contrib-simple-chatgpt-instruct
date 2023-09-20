@@ -1,0 +1,78 @@
+<script type="text/javascript">
+    RED.nodes.registerType('simple-gpt-instruct',{
+        category: 'ChatGPT',
+        color: '#1ad823',
+        defaults: {
+            name: {value: ""},
+            Token:{value: "", required:true},
+            Model:{value: ""},
+            lengthType: {value: "num"},
+            maxLength:{value: 256, validate: RED.validators.typedInput("lengthType")},
+        },
+        inputs:1,
+        outputs:1,
+        icon: "arrow-in.png",
+        label: function() {
+            return this.name||"simple-gpt-instruct";
+        },
+        oneditprepare: function () {
+            $('#node-input-maxLength').typedInput({
+                default: 'num',
+                typeField: $("#node-input-lengthType"),
+                types: ['num']
+            });
+        }
+    });
+ </script>
+ 
+ <script type="text/html" data-template-name="simple-gpt-instruct">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-Token">
+            <i class="icon-tag"></i>
+            OpenAI API Key
+        </label>
+        <input type="password" id="node-input-Token" placeholder="OpenAI API Key">
+    </div>
+    <div class="form-row">
+        <label for="node-input-Model">
+            <i class="icon-tag"></i>
+            Model
+        </label>
+        <input type="text" id="node-input-Model" placeholder="gpt-3.5-turbo-instruct">
+    </div>
+    <div class="form-row">
+        <label style="padding-top: 8px" for="node-input-maxLength"><i class="fa fa-ellipsis-h"></i> MaxLength</label>
+        <input type="number" id="node-input-maxLength" placeholder="256">
+        <input type="hidden" id="node-input-lengthType">
+    </div>
+ </script>
+ 
+ <script type="text/html" data-help-name="simple-gpt-instruct">
+    <p>ChatGPTのgpt-3.5-turbo-instructで余計な会話をせず、一発回答できるモデルを使用したやり取りが可能です。メリットとしては、プロンプトの言う事をより聞いてくれるようになります。</p>
+    <h3>入力</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">string</span>
+        </dt>
+        <dd> ChatGPTに渡すプロンプトです。 </dd>
+        <dt class="optional">OpenAI API Key <span class="property-type">string</span></dt>
+        <dd> OpenAIのAPIキーです。</dd>
+        <dt>Model
+            <span class="property-type">string</span>
+        </dt>
+        <dd> モデル名を設定します。省略すると「gpt-3.5-turbo-instruct」が使われます。 </dd>
+        <dt class="optional">MaxLength <span class="property-type">array</span></dt>
+        <dd> 返答トークンの最大値を設定します。デフォルトは256です。4096まで設定可能。</dd>
+    </dl>
+    <h3>出力</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">string</span>
+        </dt>
+        <dd> ChatGPTの返答メッセージが返ってきます </dd>
+    </dl>
+ </script>
